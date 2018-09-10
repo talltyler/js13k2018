@@ -1,11 +1,3 @@
-/*
-every level you get a new gun
-gets faster and faster
-monsters
-show what level you are on over the top
-message when you advance to next level
-
- */
 import sound from './sound';
 import Vec2 from './physics/Vec2';
 import Point from './physics/Point';
@@ -17,55 +9,13 @@ import {random, int, range, rangeInt} from './random';
 const aim = new Image();
 aim.src = 'aim.png';
 const texture = new Image();
-// const COLOR = { BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold' };
-// const COLORS = [ COLOR.YELLOW, COLOR.BRICK, COLOR.PINK, COLOR.PURPLE, COLOR.GREY ];
-const sounds = {
-  sad: '12TTcYkj3oge3fiLF85vp5Wk6eVCSUs42gWSdefSWWJqa1juWJbyMbMJFVS4Mo546WdpoSAVAc8Qf8S3L8baXW13MTA8ojab2F4c1TsRUT29GFxaDLRYtNn3cH',
-  china: '11111HH1xzWQ2n9NjPoeata2U7iAjRb4HNmh3T61D1hPrHyvEZ4AmJwMLG8p7eMPMyEgQby4atBXLYT1BSQ8JWC6sU8tzXLhiJdp2mz9pZPhmfzNKn9Kp4Ss',
-  hit: '7BMHBGGaSzarJeS7MiiRhykUpKV4wWpEZpdYH6pVwK37AGbh35bGS4Kq3LtjMFVd39pHRstQSpE3yrKF9C9e5qHfo5y753MhNFdGb8dMPboFMHdoAh23ywBAX'
-}
-const hitSound = sound(sounds.hit);
+const sounds = [
+  sound('7BMHBGGaSzarJeS7MiiRhykUpKV4wWpEZpdYH6pVwK37AGbh35bGS4Kq3LtjMFVd39pHRstQSpE3yrKF9C9e5qHfo5y753MhNFdGb8dMPboFMHdoAh23ywBAX'),
+  sound('12TTcYkj3oge3fiLF85vp5Wk6eVCSUs42gWSdefSWWJqa1juWJbyMbMJFVS4Mo546WdpoSAVAc8Qf8S3L8baXW13MTA8ojab2F4c1TsRUT29GFxaDLRYtNn3cH'),
+  sound('11111HH1xzWQ2n9NjPoeata2U7iAjRb4HNmh3T61D1hPrHyvEZ4AmJwMLG8p7eMPMyEgQby4atBXLYT1BSQ8JWC6sU8tzXLhiJdp2mz9pZPhmfzNKn9Kp4Ss')
+]
 const levels = [
   [], // there is no level 0
-  // [
-  //   1.5, // LEVEL_GENERATION_SPEED
-  //   15, // LEVEL_LENGTH
-  //   1, // LEVEL_GUN_TEXTURE
-  //   1, // LEVEL_AMMO_TEXTURE
-  //   1, // LEVEL_AMMO_COUNT
-  //   16, // LEVEL_AMMO_RATE
-  //   2, // LEVEL_AMMO_HIT_COLOR
-  //   20, // LEVEL_AMMO_HIT_COUNT
-  //   6,  // LEVEL_AMMO_HIT_SIZE
-  //   10, // LEVEL_BACKGROUND_PARTS
-  //   makeColors(0.2,0.1,0.2,0,20,20)
-  // ],
-  // [
-  //   2, // LEVEL_GENERATION_SPEED
-  //   80, // LEVEL_LENGTH
-  //   2, // LEVEL_GUN_TEXTURE
-  //   1, // LEVEL_AMMO_TEXTURE
-  //   2, // LEVEL_AMMO_COUNT
-  //   18, // LEVEL_AMMO_RATE
-  //   1, // LEVEL_AMMO_HIT_COLOR
-  //   40, // LEVEL_AMMO_HIT_COUNT
-  //   4,  // LEVEL_AMMO_HIT_SIZE
-  //   8, // LEVEL_BACKGROUND_PARTS
-  //   makeColors(0.1,0.1,0.1,0,2,40)
-  // ],
-  // [
-  //   3, // LEVEL_GENERATION_SPEED
-  //   100, // LEVEL_LENGTH
-  //   3, // LEVEL_GUN_TEXTURE
-  //   1, // LEVEL_AMMO_TEXTURE
-  //   3, // LEVEL_AMMO_COUNT
-  //   25, // LEVEL_AMMO_RATE
-  //   3, // LEVEL_AMMO_HIT_COLOR
-  //   80, // LEVEL_AMMO_HIT_COUNT
-  //   3,  // LEVEL_AMMO_HIT_SIZE
-  //   12, // LEVEL_BACKGROUND_PARTS
-  //   makeColors(0.2,0.1,0.1,20,2,4)
-  // ],
 ];
 
 const numberOfLevels = 10;
@@ -74,8 +24,8 @@ function generateLevel(i) {
   return [
     Math.max(4*percentComplete,1), // LEVEL_GENERATION_SPEED
     25 + (80*percentComplete), // LEVEL_LENGTH
-    6, // LEVEL_GUN_TEXTURE
-    7, // LEVEL_AMMO_TEXTURE
+    4, // LEVEL_GUN_TEXTURE
+    5, // LEVEL_AMMO_TEXTURE
     Math.max(4*percentComplete,1)|0, // LEVEL_AMMO_COUNT
     10 + (20*percentComplete), // LEVEL_AMMO_RATE
     rangeInt(0,5), // LEVEL_AMMO_HIT_COLOR
@@ -171,7 +121,7 @@ function beginMessage () {
   context.setTransform(1,-0.07,-0.3,1,0,0);
   context.fillText('TAKE THE', 270, 300);
   context.setTransform(1.1,-0.07,-0.2,1,0,0);
-  context.fillText('NETWORKS', 225, 432);
+  context.fillText('NETWORK', 225, 432);
   context.setTransform(1.1,-0.07,-0.2,1,0,0);
   context.fillText('OFFLINE!', 225, 567);
   context.font = '32px Impact';
@@ -217,42 +167,11 @@ function addWire() {
     box.magic = true;
   }
 
-  // if (lastLastBox) {
-  //   // let pos2 = new Vec2(lastPos.x,lastPos.y);
-  //   // let box2 = new Square(pos2,0);
-  //   // boxes.push(box2);
-  //   // let otherWire = new Rope(pos2,30,5);
-  //   // otherWire.attach(lastLastBox.points[0]);
-  //   // otherWire.attachEnd(box.points[0]);
-  //
-  //   wire.attach(lastBox.points[0]);
-  //   wire.attachEnd(box.points[0]);
-  //   wire.connections.push(lastBox,box);
-  //   wires.push(wire);
-  //   lastLastBox = lastBox;
-  //   lastPos = pos;
-  // } else
-  if (lastBox && !lastBox.hit) {
-    // wire.attach(lastBox.points[0]);
-    // wire.attachEnd(box.points[0]);
-    // wire.connections.push(lastBox,box);
-    // wires.push(wire);
-    // lastLastBox = lastBox;
-    // lastPos = pos;
-  } else {
-    // wire.attach(box.points[0]);
-    // wires.push(wire);
-
-  }
-
   if (lastBox) {
     wire.attach(box.points[0]);
     let otherBox = lastBox; //boxes[boxes.length-1] || lastBox;
     otherBox = (otherBox.points && otherBox.points[0]) ? otherBox : lastBox;
-    //wire.attachEnd(otherBox.points[0]);
     if (otherBox && otherBox.wires && otherBox.wires[0]) {
-      // wire.attachEnd(otherBox.wires[0].getRopeEnd());
-      // wire.attachEnd(otherBox.points[0]);
       wire.attachEnd(otherBox.constraints[0].P1);
       wire.connections.push(box,otherBox);
       otherBox.wires = otherBox.wires || [];
@@ -268,9 +187,6 @@ function addWire() {
   lastBox = box;
   lastWire = wire;
 }
-
-
-
 
 // https://krazydad.com/tutorials/makecolors.php
 function makeColors(frequency1, frequency2, frequency3, phase1, phase2, phase3, center, width, len) {
@@ -343,7 +259,7 @@ function update(time) {
     context.save();
     context.translate(width / 2, height-16);
     context.rotate(aimerAngle+Math.PI);
-    context.drawImage(texture,32*5,0,32,32,-16,-16,32,32);
+    context.drawImage(texture,32*currentLevel[LEVEL_GUN_TEXTURE],0,32,32,-16,-16,32,32);
     context.restore();
   }
 
@@ -367,6 +283,7 @@ function update(time) {
     if (wire.position.y > height-16 && !win) { // ?
       gameOver = true;
       showMessage('GAME','OVER');
+      sounds[2].play();
     }
     for(let k=0;k<bullets.length;k++) {
       let bullet = bullets[k];
@@ -423,14 +340,9 @@ function update(time) {
             wires.splice(i,1);
             bullets.splice(k,1);
             wire.hit = true;
-            hitSound.play();
+            sounds[0].play();
             i--;
             k--;
-            // for(let m=0;m<wires.length;m++) {
-            //   if (wires[m].constraints.length === 31) {
-            //     wires[m].constraints.shift();
-            //   }
-            // }
             continue wireLoop;
           }
     		}
@@ -452,16 +364,11 @@ function update(time) {
         context.stroke();
       }
 
-
-      // context.lineTo(wire.getRopeEnd().position.x,wire.getRopeEnd().position.y)
-      // context.lineTo(wire.points[0].position.x,wire.points[0].position.y)
-
-      // context.drawImage(texture,32,0,32,texture.height,wire.getRopeEnd().position.x-16,wire.getRopeEnd().position.y-16,32,texture.height);
       if (killCount < currentLevel[LEVEL_LENGTH]) {
         if (wire.connections && wire.connections[1] && wire.connections[1].magic) {
           context.drawImage(texture,32,0,32,texture.height,wire.points[0].position.x-16,wire.points[0].position.y-16,32,texture.height);
         } else {
-          context.drawImage(texture,32*rangeInt(1,3),0,32,texture.height,wire.points[0].position.x-16,wire.points[0].position.y-16,32,texture.height);
+          context.drawImage(texture,32*rangeInt(0,3),0,32,texture.height,wire.points[0].position.x-16,wire.points[0].position.y-16,32,texture.height);
         }
       }
     }
@@ -469,9 +376,8 @@ function update(time) {
   }
 
   renderMessageBubles(context);
-  renderSpecialBar(context);
   if (win && !gameOver) {
-    showMessage("NETWORK","DESTROYED","WE ARE ALL OFFLINE");
+    showMessage("NETWORK","DESTROYED","WE ARE OFFLINE!");
   }
   context.drawImage(aim,mouseX-16,mouseY-16);
   context.save();
@@ -508,6 +414,7 @@ function nextLevel () {
       gameOver = true;
       renderBackground(0);
       showMessage("YOU","WIN!");
+      sounds[1].play();
     }, 5000);
   } else {
     newLevelTimeout = setTimeout(()=>{
@@ -558,20 +465,6 @@ function special(){
     });
   }
   specialStrength = 0;
-}
-
-function renderSpecialBar (context) {
-  // context.fillStyle = '#FFF';
-  // context.fillRect(0,0,width,45);
-  // if (specialStrength < 1000) {
-  //   context.fillStyle = COLOR.GOLD;
-  // } else if (specialStrength < 5000) {
-  //   context.fillStyle = COLOR.BRICK;
-  // } else if (specialStrength < 15000) {
-  //   context.fillStyle = COLOR.PINK;
-  // }
-  // const size = width*(specialStrength/5000);
-  // context.fillRect(0,0,size,45);
 }
 
 function renderSpecial(context){
@@ -690,10 +583,6 @@ window.onkeyup = function(event) {
   }
 }
 
-setup();
-texture.onload = beginMessage;
-texture.src = 't.png';
-
 canvas.onclick = function(){
   if (!hasStarted) {
     hasStarted = true;
@@ -708,3 +597,7 @@ canvas.onclick = function(){
     special();
   }
 }
+
+setup();
+texture.onload = beginMessage;
+texture.src = 't.png';
